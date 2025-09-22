@@ -20,7 +20,10 @@ import { IBSheetVue, type IBSheetInstance, type IBSheetOptions, type IBSheetEven
 
 const sheet = shallowRef<IBSheetInstance | undefined>(undefined);
 
-type SearchFinishEvent = Parameters<NonNullable<IBSheetEvents['onSearchFinish']>>[0];
+const handleSearchFinish: IBSheetEvents['onSearchFinish'] = (param) => { 
+    // The type of the parameter is automatically inferred.
+    param.sheet.showFilterRow();
+};
 
 const sheetOption: IBSheetOptions = {
   Cfg: {
@@ -42,9 +45,7 @@ const sheetOption: IBSheetOptions = {
     { Header: "기준일자", Name: "stdrDe", Type: "Date", DataFormat: "yyyyMMdd", Format: "yyyy-MM-dd" },
   ],
   Events: {
-    onSearchFinish: (evt: SearchFinishEvent) => {
-      evt.sheet.showFilterRow();
-    }
+    onSearchFinish: handleSearchFinish
   }
 };
 
